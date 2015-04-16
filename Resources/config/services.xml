@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="melk_mangopay.service" class="Melk\MangopayBundle\Service\MangopayService">
+            <argument type="service" id="kernel" />
+            <argument>%melk_mangopay.credentials%</argument>
+        </service>
+
+        <service id="melk_mangopay.user" class="Melk\MangopayBundle\Service\UserService">
+            <argument type="service" id="melk_mangopay.service" />
+        </service>
+
+        <service id="melk_mangopay.wallet" class="Melk\MangopayBundle\Service\WalletService">
+            <argument type="service" id="melk_mangopay.service" />
+        </service>
+    </services>
+
+</container>
