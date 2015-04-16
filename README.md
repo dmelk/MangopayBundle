@@ -7,6 +7,11 @@ Just add this line to composer:
 "melk/mangopay" : "dev-master"
 ```
 
+Then add bundle to your `AppKernel.php` file:
+```
+new Melk\MangopayBundle\MelkMangopayBundle(),
+```
+
 #Configuration
 Create account on mangopay and add next information to your `config.yml`:
 ```
