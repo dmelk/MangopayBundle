@@ -176,4 +176,30 @@ class WalletService {
         );
     }
 
+    public function getUserWallets($userId, $page = 1, $itemsPerPage = 100)
+    {
+        $pagination = new Pagination($page, $itemsPerPage);
+
+        $wallets = $this->service->getApi()->Users->GetWallets($userId, $pagination);
+
+        $extractedData = [];
+
+        /** @var Wallet $wallet */
+        foreach ($wallets as $wallet) {
+            $extractedData[] = array(
+                'id'       => $wallet->Id,
+                'currency' => $wallet->Balance->Currency,
+                'balance'  => $wallet->Balance->Amount
+            );
+        }
+
+        return array(
+            'wallets'        => $extractedData,
+            'total_items'    => $pagination->TotalItems,
+            'total_pages'    => $pagination->TotalPages,
+            'current_page'   => $pagination->Page,
+            'items_per_page' => $pagination->ItemsPerPage
+        );
+    }
+
 }
