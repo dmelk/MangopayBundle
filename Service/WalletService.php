@@ -176,6 +176,20 @@ class WalletService {
         );
     }
 
+    /**
+     * List all user wallets
+     * Result has next keys:
+     * - wallets: extracted wallets list in array format: id, balance (int), currency
+     * - total items: total found transactions
+     * - total pages: total pages count
+     * - current_page: current page number
+     * - items_per_page: amount of items per page
+     *
+     * @param $userId
+     * @param int $page
+     * @param int $itemsPerPage
+     * @return array
+     */
     public function getUserWallets($userId, $page = 1, $itemsPerPage = 100)
     {
         $pagination = new Pagination($page, $itemsPerPage);
