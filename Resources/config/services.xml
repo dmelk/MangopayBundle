@@ -21,6 +21,10 @@
         <service id="melk_mangopay.payin" class="Melk\MangopayBundle\Service\PayinService">
             <argument type="service" id="melk_mangopay.service" />
         </service>
+
+        <service id="melk_mangopay.payout" class="Melk\MangopayBundle\Service\PayoutService">
+            <argument type="service" id="melk_mangopay.service" />
+        </service>
     </services>
 
 </container>

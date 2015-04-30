@@ -9,7 +9,7 @@ use MangoPay\PayInPaymentDetailsCard;
 /**
  * This class is adapter to Mangopay Payin services
  *
- * @package Melk\MangopayBundle\Service
+ * @package   Melk\MangopayBundle\Service
  * @author    Michael Potienko <potienko.m@gmail.com>
  * @copyright 2015 Modera Foundation
  */
