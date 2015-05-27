@@ -5,6 +5,7 @@ use MangoPay\Money;
 use MangoPay\PayIn;
 use MangoPay\PayInExecutionDetailsWeb;
 use MangoPay\PayInPaymentDetailsCard;
+use MangoPay\ResponseException;
 
 /**
  * This class is adapter to Mangopay Payin services
@@ -178,6 +179,31 @@ class PayinService {
             'redirectUrl' => $executionDetails->RedirectURL,
             'templateUrl' => $executionDetails->TemplateURL,
             'returnUrl'   => $executionDetails->ReturnURL
+        );
+    }
+
+    /**
+     * Get pay in transaction
+     *
+     * @param $payInId
+     * @return array|null
+     */
+    public function getTransaction($payInId)
+    {
+        try {
+            /** @var PayIn $payIn */
+            $payIn = $this->service->getApi()->PayIns->Get($payInId);
+        } catch (ResponseException $e) {
+            return null;
+        }
+        return array(
+            'id'       => $payIn->Id,
+            'walletId' => $payIn->CreditedWalletId,
+            'funds'    => array(
+                'currency' => $payIn->CreditedFunds->Currency,
+                'amount'   => $payIn->CreditedFunds->Amount
+            ),
+            'success'  => ($payIn->Status == MangopayService::STATUS_SUCCESS)
         );
     }
 

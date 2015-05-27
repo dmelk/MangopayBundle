@@ -15,6 +15,12 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class MangopayService {
 
+    const STATUS_SUCCESS = 'SUCCEEDED';
+
+    const STATUS_CREATED = 'CREATED';
+
+    const STATUS_FAILED = 'FAILED';
+
     /**
      * @var MangoPayApi
      */

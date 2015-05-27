@@ -3,8 +3,10 @@
 namespace Melk\MangopayBundle\Service;
 
 use MangoPay\FilterTransactions;
+use MangoPay\Money;
 use MangoPay\Pagination;
 use MangoPay\Transaction;
+use MangoPay\Transfer;
 use MangoPay\Wallet;
 
 /**
@@ -214,6 +216,38 @@ class WalletService {
             'current_page'   => $pagination->Page,
             'items_per_page' => $pagination->ItemsPerPage
         );
+    }
+
+    /**
+     * Transfer money between wallets
+     *
+     * @param int $authorId Transfer author
+     * @param int $fromWalletId Wallet id from which money will be transfered
+     * @param int $toWalletId Wallet id to which money will be transfered
+     * @param array $funds Funds: amount, currency
+     * @param array $fees Fees: amount, currency
+     * @return bool True if transfer successed
+     */
+    public function transfer($authorId, $fromWalletId, $toWalletId, $funds, $fees)
+    {
+        $transfer = new Transfer();
+        $transfer->AuthorId = $authorId;
+        $transfer->DebitedWalletId = $fromWalletId;
+        $transfer->CreditedWalletId = $toWalletId;
+
+        $mpFunds = new Money();
+        $mpFunds->Amount = $funds['amount'];
+        $mpFunds->Currency = $funds['currency'];
+        $transfer->DebitedFunds = $mpFunds;
+
+        $mpFees = new Money();
+        $mpFees->Amount = $fees['amount'];
+        $mpFees->Currency = $fees['currency'];
+        $transfer->Fees = $mpFees;
+
+        $transfer = $this->service->getApi()->Transfers->Create($transfer);
+
+        return ($transfer->Status == MangopayService::STATUS_SUCCESS);
     }
 
 }
